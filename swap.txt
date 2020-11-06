@@ -1,0 +1,5 @@
+program.txt
+18
+42
+Instrucao ilegal
+0,7,42
