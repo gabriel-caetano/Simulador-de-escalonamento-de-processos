@@ -4,7 +4,7 @@ class Cpu:
 		self.__pc = 0
 		self.__acc = 0
 		self.__state = "normal"
-		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz}
+		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg, "PARA": self.__stop}
 		self.__instruction_memory = []
 		self.__data_memory = [ 0 for _ in range(mem_size)]
 
@@ -14,6 +14,9 @@ class Cpu:
 
 	def __ilegalInstruction(self):
 		print("Instrucao invalida:", self.getCurrInstruction())
+		self.__state = "Instrucao ilegal"
+
+	def __stop(self):
 		self.__state = "Instrucao ilegal"
 
 	def __cargi(self, value):
@@ -81,7 +84,6 @@ class Cpu:
 			self.__pc += 1
 		
 	def __neg(self):
-		# print("Inverte sinal", self.__acc)
 		self.__acc = -self.__acc
 		self.__pc += 1
 
@@ -127,26 +129,29 @@ class Cpu:
 
 	def execute(self, instruction):
 		params = instruction.split()
+		name = params.pop(0)
 		if self.__state != "normal":
 			return False
-		if len(params) == 1:
-			if instruction == "NEG":
-				self.__neg()
+		if len(params) == 0:
+			try:
+				self.__instructions[name]()
 				return True
-			else:
-				self.__ilegalInstruction(instruction)
+			except:
+				self.__ilegalInstruction()
 				return False
-		elif len(params) == 2:
-			name = params.pop(0)
+		elif len(params) > 0:
+			try:
+				self.__instructions[name](params)
+				return True
+			except:
+				self.__ilegalInstruction()
+				return False
 
-			self.__instructions[name](params)
-			return True
-
-	def showDataMemory(self, index = -1):
+	def getDataMemory(self, index = -1):
 		if index < 0:
-			print(self.__data_memory)
+			return self.__data_memory
 		elif index < len(self.__data_memory):
-			print(self.__data_memory[index])
+			return self.__data_memory[index]
 		else:
 			self.__memoryFail()
 

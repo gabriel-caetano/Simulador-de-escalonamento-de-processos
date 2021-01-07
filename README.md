@@ -19,15 +19,15 @@ carrega um arquivo contendo instrucoes de um programa
 
 - `cpu.saveState()`
 
-salva o estado do cpu em um arquivo 'swap.txt'
+salva o estado da cpu em um arquivo 'swap.txt'
 
 - `cpu.loadState()`
 
-carrega o estado do cpu de um arquivo 'swap.txt'
+carrega o estado da cpu de um arquivo 'swap.txt'
 
 - `cpu.resetState()`
 
-reseta todos os valores do cpu para o estado inicial
+reseta todos os valores da cpu para o estado inicial
 
 - `cpu.run(n=0)`
 
@@ -50,11 +50,11 @@ se i < 0 printa toda a memoria
 
 - `cpu.showCpuState()`
 
-printa no terminal o estado atual do do cpu
+printa no terminal o estado atual do da cpu
 
 - `cpu.setCpuNormal()`
 
-define o estado do cpu como 'normal'
+define o estado da cpu como 'normal'
 
 - `cpu.getCurrInstruction()`
 
