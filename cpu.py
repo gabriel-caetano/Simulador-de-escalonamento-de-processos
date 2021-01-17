@@ -15,7 +15,7 @@ class Cpu:
 		print(f"Memoria invalida durante a execucao {self.getCurrInstruction()} na linha {self.__pc}")
 
 	def __ilegalInstruction(self):
-		print("Instrucao invalida:", self.getCurrInstruction())
+		print("Instrucao invalida:", self.getInstr())
 		self.__state = "Instrucao ilegal"
 
 	def __cargi(self, value):
@@ -113,18 +113,7 @@ class Cpu:
 		self.__acc = 0
 		self.__state = "normal"
 		self.__instruction_memory = []
-		self.__data_memory = [ 0 for _ in range(mem_size)]
-
-	def run(self, n = 0):
-		run = True
-		if n <= 0:
-			while run:
-				run = self.execute(self.getCurrInstruction())
-		else:
-			for i in range(n):
-				if not run:
-					break
-				run = self.execute(self.getCurrInstruction())
+		self.__data_memory = [ 0 for _ in range(mem_size) ]
 
 	def execute(self, instruction):
 		params = instruction.split()
@@ -168,7 +157,7 @@ class Cpu:
 	def setCpuNormal(self):
 		self.__state = "normal"
 		
-	def getCurrInstruction(self):
+	def getInstr(self):
 		return self.__instruction_memory[self.__pc]
 
 	def getAcc(self):
@@ -176,3 +165,9 @@ class Cpu:
 
 	def setAcc(self, value):
 		self.__acc = value
+
+	def incrementPc(self):
+		self.__pc += 1
+
+	def getPc(self):
+		return self.__pc

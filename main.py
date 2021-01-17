@@ -41,17 +41,25 @@
 # cpu.getCurrInstruction()
 #		retorna a instrucao atualmente apontada pelo pc
 
-from cpu import Cpu
+from operating_system import OperatingSystem
 
-program = Cpu(3)
-program.readFile("program.txt")
-program.run()
-print(program.getState())
-# program.showInstructionMemory()
-program.saveState()
-program.loadState()
-mem = program.getDataMemory(0)
-instr = program.getCurrInstruction()
+so = OperatingSystem()
+so.load("program.txt")
+so.start()
+
+
+# program = Cpu(3)
+# program.readFile("program.txt")
+# program.run()
+# print(program.getState())
+# # program.showInstructionMemory()
+# program.saveState()
+# program.loadState()
+# mem = program.getDataMemory(0)
+# instr = program.getCurrInstruction()
+instr = so.getInstr()
+mem = so.getMem(0)
+
 print(f"O programa parou na instrucao {instr}.")
 print(f"O valor de m[0] e {mem}")
 
