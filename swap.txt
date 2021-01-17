@@ -1,5 +1,5 @@
-program.txt
-18
+
+19
 42
-Instrucao ilegal
+ilegal instruction
 0,7,42

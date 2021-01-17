@@ -1,34 +1,31 @@
-# from system_cpu import SystemCpu
+from job import Job
 
 class Cpu:
-	def __init__(self, mem_size = 50):
+	def __init__(self, ):
 		self.__program_path = ''
 		self.__pc = 0
 		self.__acc = 0
 		self.__state = "normal"
-		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg, "ESPERA"}
+		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg}
 		self.__instruction_memory = []
-		self.__data_memory = [ 0 for _ in range(mem_size)]
+		self.__data_memory = []
 
 	def __memoryFail(self):
-		self.__state = "memoria invalida"
+		self.__state = "invalid memory"
 		print(f"Memoria invalida durante a execucao {self.getCurrInstruction()} na linha {self.__pc}")
 
 	def __ilegalInstruction(self):
-		print("Instrucao invalida:", self.getInstr())
-		self.__state = "Instrucao ilegal"
+		self.__state = "ilegal instruction"
 
 	def __cargi(self, value):
 		value = int(value[0])
 		self.__acc = int(value)
-		# print("Acumulador recebe", value)
 		self.__pc += 1
 
 	def __cargm(self, value):
 		value = int(value[0])
 		if len(self.__data_memory) > value:
 			self.__acc = self.__data_memory[value]
-			# print("Acumulador recebe", self.__data_memory[value], "da memoria", value)
 			self.__pc += 1
 		else:
 			self.__memoryFail()
@@ -40,7 +37,6 @@ class Cpu:
 		if value_in_range and range_in_range:
 			index = self.__data_memory[value]
 			self.__acc = self.__data_memory[index]
-			# print("Acumulador recebe", self.__data_memory[index], "da memoria", index)
 			self.__pc += 1
 		else:
 			self.__memoryFail()
@@ -49,7 +45,6 @@ class Cpu:
 		value = int(value[0])
 		if len(self.__data_memory) > value:
 			self.__data_memory[value] = self.__acc
-			# print("salvou valor", self.__acc, "na memoria", value)
 			self.__pc += 1
 		else:
 			self.__memoryFail()
@@ -61,13 +56,11 @@ class Cpu:
 		if value_in_range and range_in_range:
 			index = self.__data_memory[value]
 			self.__data_memory[index] = self.__acc
-		# print("Salva valor", self.__acc, "na memoria", index)
 		self.__pc += 1
 		
 	def __soma(self, value):
 		value = int(value[0])
 		if len(self.__data_memory) > value:
-			# print("Soma", self.__acc, "+", self.__data_memory[value])
 			self.__acc += self.__data_memory[value]
 			self.__pc += 1
 		else:
@@ -76,20 +69,18 @@ class Cpu:
 	def __desvz(self, value):
 		value = int(value[0])
 		if self.__acc == 0:
-			# print("Desvia para", value)
 			self.__pc = value
 		else:
-			# print("Nao desvia")
 			self.__pc += 1
 		
 	def __neg(self):
 		self.__acc = -self.__acc
 		self.__pc += 1
 
-	def readFile(self, file_path):
-		self.__program_path = file_path
-		with open(file_path) as file:
-			self.__instruction_memory = [x[:-1] if x[-1]<='\n' else x for x in file]
+	def loadJob(self, job):
+		self.__data_memory =  [ 0 for _ in range(job.getMemSize()) ]
+		for instr in job.getProgram():
+			self.__instruction_memory.append(instr)
 
 	def saveState(self):
 		save_content = f"{self.__program_path}\n{self.__pc}\n{self.__acc}\n{self.__state}\n"

@@ -1,0 +1,17 @@
+Job3:
+Mem_size:
+1
+Input:
+input3-0.txt, input3-1.txt
+Output:
+output3.txt
+Program:
+LE    0
+ARMM  0
+LE    1
+SOMA  0
+GRAVA 2
+DESVZ 8
+CARGI 0
+DESVZ 0
+PARA

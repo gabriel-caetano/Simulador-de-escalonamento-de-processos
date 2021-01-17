@@ -19,31 +19,18 @@ class Timer:
 			"time": freq + self.__time if freq > 0 else time + self.__time
 		}
 		self.__interruptions.append(interruption)
-		print(self.__interruptions)
 		self.__interruptions = sorted(self.__interruptions, key=lambda k: k['time'])
-		print(self.__interruptions)
 
 
 	def getInterr(self):
-		return self.__interruptions
-		if self.__time == self.__interruptions[0]['time']:
-			if self.__interruptions[0]['type'] == 0:
-				return self.__interruptions.pop(0)['code']
-			else:
-				interr = self.__interruptions.pop(0)
-				interr['time'] = interr['freq'] + self.__time
-				self.__interruptions.append(interr)
-				self.__interruptions = sorted(self.__interruptions, key=lambda k: k['time'])
+		if len(self.__interruptions):
+			if self.__time >= self.__interruptions[0]['time']:
+				interr = self.__interruptions[0]
+				if self.__interruptions[0]['type'] == 0:
+					self.__interruptions.pop(0)
+				else:
+					updated_time = self.__interruptions[0]['freq'] + self.__time
+					self.__interruptions[0]['time'] = updated_time
+					self.__interruptions = sorted(self.__interruptions, key=lambda k: k['time'])
 				return interr['code']
 		return 0
-
-new = Timer()
-new.newInterr(0, 5, 3)
-new.newInterr(0, 4, 10)
-new.newInterr(0, 5, 7)
-new.newInterr(0, 5, 1)
-new.newInterr(1, 5, 0, 3)
-new.newInterr(1, 5, 0, 6)
-new.newInterr(1, 5, 0, 5)
-
-# new.getInterr()

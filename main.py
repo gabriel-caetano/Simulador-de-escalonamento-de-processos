@@ -42,9 +42,14 @@
 #		retorna a instrucao atualmente apontada pelo pc
 
 from operating_system import OperatingSystem
+from job import Job
 
-so = OperatingSystem()
-so.load("program.txt")
+job_1 = Job('job1.txt')
+job_2 = Job('job2.txt')
+jobs = [job_1,job_2]
+
+
+so = OperatingSystem(jobs)
 so.start()
 
 instr = so.getInstr()
