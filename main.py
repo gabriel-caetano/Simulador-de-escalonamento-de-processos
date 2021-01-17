@@ -47,16 +47,6 @@ so = OperatingSystem()
 so.load("program.txt")
 so.start()
 
-
-# program = Cpu(3)
-# program.readFile("program.txt")
-# program.run()
-# print(program.getState())
-# # program.showInstructionMemory()
-# program.saveState()
-# program.loadState()
-# mem = program.getDataMemory(0)
-# instr = program.getCurrInstruction()
 instr = so.getInstr()
 mem = so.getMem(0)
 

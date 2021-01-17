@@ -6,7 +6,7 @@ class Cpu:
 		self.__pc = 0
 		self.__acc = 0
 		self.__state = "normal"
-		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg}
+		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg, "ESPERA"}
 		self.__instruction_memory = []
 		self.__data_memory = [ 0 for _ in range(mem_size)]
 
@@ -171,3 +171,6 @@ class Cpu:
 
 	def getPc(self):
 		return self.__pc
+
+	def sleep(self):
+		self.__state = 'sleep'
