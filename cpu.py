@@ -1,10 +1,12 @@
+# from system_cpu import SystemCpu
+
 class Cpu:
 	def __init__(self, mem_size = 50):
 		self.__program_path = ''
 		self.__pc = 0
 		self.__acc = 0
 		self.__state = "normal"
-		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg, "PARA": self.__stop}
+		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg}
 		self.__instruction_memory = []
 		self.__data_memory = [ 0 for _ in range(mem_size)]
 
@@ -14,9 +16,6 @@ class Cpu:
 
 	def __ilegalInstruction(self):
 		print("Instrucao invalida:", self.getCurrInstruction())
-		self.__state = "Instrucao ilegal"
-
-	def __stop(self):
 		self.__state = "Instrucao ilegal"
 
 	def __cargi(self, value):
@@ -163,11 +162,17 @@ class Cpu:
 		else:
 			self.__memoryFail()
 
-	def showCpuState(self):
-		print(self.__state)
+	def getState(self):
+		return self.__state
 	
 	def setCpuNormal(self):
 		self.__state = "normal"
 		
 	def getCurrInstruction(self):
 		return self.__instruction_memory[self.__pc]
+
+	def getAcc(self):
+		return self.__acc
+
+	def setAcc(self, value):
+		self.__acc = value
