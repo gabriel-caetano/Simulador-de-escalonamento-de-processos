@@ -2,9 +2,9 @@ Job1:
 Mem_size:
 3
 Input:
-input1.txt
+io0.txt
 Output:
-output1.txt
+io1.txt
 Program:
 CARGI 6
 ARMM  0
@@ -24,6 +24,4 @@ ARMM  0
 CARGI 0
 DESVZ 6
 CARGM 2
-GRAVA
-LE
 PARA

@@ -33,4 +33,4 @@ class Timer:
 					self.__interruptions[0]['time'] = updated_time
 					self.__interruptions = sorted(self.__interruptions, key=lambda k: k['time'])
 				return interr['code']
-		return 0
+		return -1

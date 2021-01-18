@@ -1,8 +1,7 @@
 from job import Job
 
 class Cpu:
-	def __init__(self, ):
-		self.__program_path = ''
+	def __init__(self):
 		self.__pc = 0
 		self.__acc = 0
 		self.__state = "normal"
@@ -68,6 +67,7 @@ class Cpu:
 		
 	def __desvz(self, value):
 		value = int(value[0])
+		print(self.__acc)
 		if self.__acc == 0:
 			self.__pc = value
 		else:
@@ -78,17 +78,23 @@ class Cpu:
 		self.__pc += 1
 
 	def loadJob(self, job):
-		self.__data_memory =  [ 0 for _ in range(job.getMemSize()) ]
-		for instr in job.getProgram():
-			self.__instruction_memory.append(instr)
-
-	def saveState(self):
-		save_content = f"{self.__program_path}\n{self.__pc}\n{self.__acc}\n{self.__state}\n"
-		for data in self.__data_memory:
-			save_content += f"{data},"
-		save_content = save_content[:-1]+'\n'
-		with open("swap.txt", 'w') as swap:
-			swap.write(save_content)
+		print(f"carregou job")
+		self.__pc = job.getPc()
+		self.__acc = job.getAcc()
+		self.__data_memory =  [ x for x in job.getMem() ]
+		self.__instruction_memory = [ x for x in job.getProgram() ]
+		if job.getStatus() == 'sleep':
+			state = 'sleep'
+		elif job.getStatus() == 'running':
+			state = 'ilegal instruction'
+		self.__state = job.getStatus() if job.getStatus() == 'sleep' else 'normal'
+		
+	def saveState(self, job):
+		job.setPc(self.__pc)
+		job.setAcc(self.__acc)
+		job.setMem(self.__data_memory)
+		job.setProgram(self.__instruction_memory)
+		job.setStatus(self.__state)
 
 	def loadState(self):
 		with open("swap.txt") as swap:
@@ -97,7 +103,12 @@ class Cpu:
 			self.__acc = int(swap.readline()[:-1])
 			self.__state = swap.readline()[:-1]
 			self.__data_memory = [int(x) for x in swap.readline()[:-1].split(",")]
-
+			line = swap.readline()[:-1]
+			instru = []
+			while line:
+				instru.append(line)
+				line = swap.readline()[:-1]
+			
 	def resetState(self):
 		self.__program_path = ''
 		self.__pc = 0
@@ -109,6 +120,10 @@ class Cpu:
 	def execute(self, instruction):
 		params = instruction.split()
 		name = params.pop(0)
+		print(f'executou: "{name}", "{params}"')
+		if self.__state == 'sleep':
+			return True
+
 		if self.__state != "normal":
 			return False
 		if len(params) == 0:
@@ -165,3 +180,6 @@ class Cpu:
 
 	def sleep(self):
 		self.__state = 'sleep'
+
+	# def setState(self, state):
+	# 	self.__state = state

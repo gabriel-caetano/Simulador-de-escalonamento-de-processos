@@ -2,9 +2,9 @@ Job3:
 Mem_size:
 1
 Input:
-input3-0.txt, input3-1.txt
+io0.txt, io1.txt
 Output:
-output3.txt
+io2.txt
 Program:
 LE    0
 ARMM  0
