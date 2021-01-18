@@ -6,9 +6,11 @@ class Scheduler:
     self.__curr_index = -1
 
   def getNext(self):
+    jobs = [job for i,job in enumerate(self.__jobs) if i != self.__curr_index]
     value = 0
     curr = -1
     index = -1
+    finished = False
     for i, job in enumerate(self.__jobs):
       if job.getPriority() > curr:
         if job.getStatus() == 'pending':
@@ -19,15 +21,12 @@ class Scheduler:
       value.setStatus('running')
       self.__curr_index = index
     else:
-      for i, job in enumerate(self.__jobs):
-        if job.getPriority() > curr:
-          if job.getStatus() == 'sleep':
-            curr = job.getPriority()
-            value = job
-            index = i
-      if value:
-        self.__curr_index = index
-    return value
+      finished = True
+      for job in self.__jobs:
+        if job.getStatus() != 'finished':
+          finished = False
+          break
+    return (value, finished)
 
   def getIndex(self):
     return self.__curr_index

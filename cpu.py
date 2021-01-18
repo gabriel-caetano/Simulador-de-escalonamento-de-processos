@@ -67,7 +67,6 @@ class Cpu:
 		
 	def __desvz(self, value):
 		value = int(value[0])
-		print(self.__acc)
 		if self.__acc == 0:
 			self.__pc = value
 		else:
@@ -78,22 +77,16 @@ class Cpu:
 		self.__pc += 1
 
 	def loadJob(self, job):
-		print(f"carregou job")
 		self.__pc = job.getPc()
 		self.__acc = job.getAcc()
 		self.__data_memory =  [ x for x in job.getMem() ]
 		self.__instruction_memory = [ x for x in job.getProgram() ]
-		if job.getStatus() == 'sleep':
-			state = 'sleep'
-		elif job.getStatus() == 'running':
-			state = 'ilegal instruction'
-		self.__state = job.getStatus() if job.getStatus() == 'sleep' else 'normal'
+		self.__state = 'normal'
 		
 	def saveState(self, job):
 		job.setPc(self.__pc)
 		job.setAcc(self.__acc)
 		job.setMem(self.__data_memory)
-		job.setProgram(self.__instruction_memory)
 		job.setStatus(self.__state)
 
 	def loadState(self):
@@ -181,5 +174,5 @@ class Cpu:
 	def sleep(self):
 		self.__state = 'sleep'
 
-	# def setState(self, state):
-	# 	self.__state = state
+	def getProgram(self):
+		return self.__instruction_memory
