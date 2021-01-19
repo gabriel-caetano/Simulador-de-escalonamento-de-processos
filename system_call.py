@@ -31,12 +31,10 @@ class SystemCall:
 		job.setPc(job.getPc() + 1)
 		input_address = f'{job_index}{job.getIo()[index].strip()}'
 		with open(input_address) as reading:
-			print(f'input_address: {input_address}')
 			job.setAcc(int(reading.readline()[:-1]))
 
 	def write(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
 		output_address = f'{job_index}{job.getIo()[index].strip()}'
 		with open(output_address, 'w') as writing:
-			print(f'output_address: {output_address}')
 			writing.write(str(job.getAcc()))

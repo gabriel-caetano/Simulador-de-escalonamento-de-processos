@@ -6,7 +6,7 @@ class Job:
     self.__mem = []
     self.__io = []
     self.__startting_time = -1
-    self.__priority = 0
+    self.__priority = 0.5
     self.__status = 'pending'
     with open(name, 'r') as new_job:
       line = new_job.readline()

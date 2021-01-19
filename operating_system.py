@@ -44,13 +44,9 @@ class OperatingSystem:
 		instr = self.__cpu.getProgram()[pc]
 		if instr.split()[0] == 'LE':
 			param = int(instr.split()[1])
-			print(f'param: {param}')
-			print(f'instr: {instr}')
-			print(f'pc: {pc}')
 			self.__syscall.read(param, job, self.__scheduler.getIndex())
 		elif instr.split()[0] == 'GRAVA':
 			param = int(instr.split()[1])
-			print(f'param: {param}')
 			self.__syscall.write(param, job, self.__scheduler.getIndex())
 		if self.__cpu.getState() == 'sleep':
 			(next_job, finished) = self.__scheduler.getNext()

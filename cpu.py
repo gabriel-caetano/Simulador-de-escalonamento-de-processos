@@ -113,7 +113,6 @@ class Cpu:
 	def execute(self, instruction):
 		params = instruction.split()
 		name = params.pop(0)
-		print(f'executou: "{name}", "{params}"')
 		if self.__state == 'sleep':
 			return True
 
