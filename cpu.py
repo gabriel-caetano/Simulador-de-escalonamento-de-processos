@@ -91,16 +91,16 @@ class Cpu:
 
 	def loadState(self):
 		with open("swap.txt") as swap:
-			self.readFile(swap.readline()[:-1])
-			self.__pc = int(swap.readline()[:-1])
-			self.__acc = int(swap.readline()[:-1])
-			self.__state = swap.readline()[:-1]
-			self.__data_memory = [int(x) for x in swap.readline()[:-1].split(",")]
-			line = swap.readline()[:-1]
+			self.readFile(swap.readline().replace('\n',''))
+			self.__pc = int(swap.readline().replace('\n',''))
+			self.__acc = int(swap.readline().replace('\n',''))
+			self.__state = swap.readline().replace('\n','')
+			self.__data_memory = [int(x) for x in swap.readline().replace('\n','').split(",")]
+			line = swap.readline().replace('\n','')
 			instru = []
 			while line:
 				instru.append(line)
-				line = swap.readline()[:-1]
+				line = swap.readline().replace('\n','')
 			
 	def resetState(self):
 		self.__program_path = ''

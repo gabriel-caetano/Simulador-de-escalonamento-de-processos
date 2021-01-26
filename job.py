@@ -5,22 +5,31 @@ class Job:
     self.__program = []
     self.__mem = []
     self.__io = []
+    self.__io_count = []
     self.__startting_time = -1
     self.__priority = 0.5
     self.__status = 'pending'
     with open(name, 'r') as new_job:
       line = new_job.readline()
       line = new_job.readline()
-      self.__mem = [ 0 for _ in range(int(new_job.readline()[:-1])) ]
+      self.__mem = [ 0 for _ in range(int(new_job.readline().replace('\n',''))) ]
       line = new_job.readline()
-      self.__io += new_job.readline()[:-1].split(',')
+      self.__io += new_job.readline().replace('\n','').split(',')
       line = new_job.readline()
-      self.__io += new_job.readline()[:-1].split(',')
+      self.__io += new_job.readline().replace('\n','').split(',')
+      self.__io_count = [ 0 for _ in self.__io ]
       line = new_job.readline()
       line = new_job.readline()
       while line:
-        self.__program.append(line[:-1])
+        self.__program.append(line.replace('\n',''))
         line = new_job.readline()
+
+  def getIoCount(self):
+    return self.__io_count
+
+  def incrementCount(self, index):
+    self.__io_count[index] = self.__io_count[index] + 1
+
 
   def getMem(self):
     return self.__mem

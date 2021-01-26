@@ -40,14 +40,16 @@ class OperatingSystem:
 	def resolveInterruption(self, code):
 		self.__scheduler.setFree(code)
 		job = self.__scheduler.getJob(code) 
-		pc = self.__cpu.getPc()
-		instr = self.__cpu.getProgram()[pc]
+		pc = job.getPc()
+		instr = job.getProgram()[pc]
 		if instr.split()[0] == 'LE':
 			param = int(instr.split()[1])
-			self.__syscall.read(param, job, self.__scheduler.getIndex())
+			self.__syscall.read(param, job, code)
 		elif instr.split()[0] == 'GRAVA':
 			param = int(instr.split()[1])
-			self.__syscall.write(param, job, self.__scheduler.getIndex())
+			print("instr: ", instr)
+			print("code: ", code)
+			self.__syscall.write(param, job, code)
 		if self.__cpu.getState() == 'sleep':
 			(next_job, finished) = self.__scheduler.getNext()
 			if next_job:

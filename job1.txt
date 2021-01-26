@@ -2,9 +2,9 @@ Job1:
 Mem_size:
 3
 Input:
-io0.txt
+
 Output:
-io1.txt
+
 Program:
 CARGI 6
 ARMM  0

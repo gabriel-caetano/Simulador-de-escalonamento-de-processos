@@ -6,7 +6,7 @@ from job import Job
 job_1 = Job('job1.txt')
 job_2 = Job('job2.txt')
 job_3 = Job('job3.txt')
-jobs = [job_1, job_2, job_3]
+jobs = [job_3, job_2, job_1]
 
 
 so = OperatingSystem(jobs)
@@ -21,3 +21,4 @@ print(prog0, prog1, prog2)
 print(f"O programa parou na instrucao {instr}.")
 print(f"O valor de m[0] e {mem}")
 
+# descobrir quem ta escrevendo 6 no arquivo 0io1.txt

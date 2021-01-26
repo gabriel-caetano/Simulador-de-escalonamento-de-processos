@@ -30,11 +30,25 @@ class SystemCall:
 	def read(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
 		input_address = f'{job_index}{job.getIo()[index].strip()}'
+		count = job.getIoCount()[index]
 		with open(input_address) as reading:
-			job.setAcc(int(reading.readline()[:-1]))
+			line = reading.readlines()
+			job.setAcc(int(line[count]))
+
+		job.incrementCount(index)
 
 	def write(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
 		output_address = f'{job_index}{job.getIo()[index].strip()}'
-		with open(output_address, 'w') as writing:
-			writing.write(str(job.getAcc()))
+		print("index: ", index)
+		print("job:", job_index)
+		print("ioCount:", job.getIoCount())
+		count = job.getIoCount()[index]
+		line = str(job.getAcc()) + '\n'
+		if count:
+			with open(output_address, 'a') as writing:
+				writing.write(line)
+		else:
+			with open(output_address, 'w') as writing:
+				writing.write(line)
+		job.incrementCount(index)
