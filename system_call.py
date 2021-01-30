@@ -29,7 +29,7 @@ class SystemCall:
 
 	def read(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
-		input_address = f'{job_index}{job.getIo()[index].strip()}'
+		input_address = f'jobs/{job.getName()}/io/{job.getIo()[index].strip()}'
 		count = job.getIoCount()[index]
 		with open(input_address) as reading:
 			line = reading.readlines()
@@ -39,7 +39,7 @@ class SystemCall:
 
 	def write(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
-		output_address = f'{job_index}{job.getIo()[index].strip()}'
+		output_address = f'jobs/{job.getName()}/io/{job.getIo()[index].strip()}'
 		print("index: ", index)
 		print("job:", job_index)
 		print("ioCount:", job.getIoCount())

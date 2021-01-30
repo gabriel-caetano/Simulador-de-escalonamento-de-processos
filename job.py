@@ -1,5 +1,6 @@
 class Job:
   def __init__(self, name, priority = 0):
+    self.__name = name
     self.__pc = 0
     self.__acc = 0
     self.__program = []
@@ -9,7 +10,7 @@ class Job:
     self.__startting_time = -1
     self.__priority = 0.5
     self.__status = 'pending'
-    with open(name, 'r') as new_job:
+    with open(f'jobs/{name}/{name}.txt', 'r') as new_job:
       line = new_job.readline()
       line = new_job.readline()
       self.__mem = [ 0 for _ in range(int(new_job.readline().replace('\n',''))) ]
@@ -73,4 +74,5 @@ class Job:
   def incrementPc(self):
     self.__pc += 1
 
-  
+  def getName(self):
+    return self.__name
