@@ -16,11 +16,7 @@ class OperatingSystem:
 		return self.__scheduler
 
 	def start(self):
-		(next_job, finished) = self.__scheduler.getNext()
-		if next_job:
-			self.__cpu.setCpuNormal()
-			self.__cpu.loadJob(next_job)
-			self.__controller.run(self.__cpu, self, self.__timer)
+		self.__controller.run(self.__cpu, self, self.__timer)
 
 	def getInstr(self):
 		return self.__cpu.getInstr()
@@ -29,6 +25,8 @@ class OperatingSystem:
 		return (self.__cpu.getDataMemory(index))
 
 	def resolveIlegal(self, instruction, cpu):
+		if not instruction:
+			return
 		if instruction.split()[0] == 'LE' or instruction.split()[0] == 'GRAVA':
 			self.__cpu.sleep()
 			self.__cpu.saveState(self.__scheduler.getJob(self.__scheduler.getIndex()))
@@ -47,8 +45,6 @@ class OperatingSystem:
 			self.__syscall.read(param, job, code)
 		elif instr.split()[0] == 'GRAVA':
 			param = int(instr.split()[1])
-			print("instr: ", instr)
-			print("code: ", code)
 			self.__syscall.write(param, job, code)
 		if self.__cpu.getState() == 'sleep':
 			(next_job, finished) = self.__scheduler.getNext()

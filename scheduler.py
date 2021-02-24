@@ -39,4 +39,7 @@ class Scheduler:
     self.__jobs[index].setStatus('pending')
 
   def getJob(self, index):
-    return self.__jobs[index]
+    try:
+      return self.__jobs[index]
+    except:
+      return None

@@ -13,10 +13,18 @@ so = OperatingSystem(jobs)
 so.start()
 instr = so.getInstr()
 mem = so.getMem(0)
-prog0 = so.getScheduler().getJob(0).getStatus()
-prog1 = so.getScheduler().getJob(1).getStatus()
-prog2 = so.getScheduler().getJob(2).getStatus()
+status = []
+i = 0
+while True:
+  job = so.getScheduler().getJob(i)
+  i += 1
+  if not job:
+    break
+  status.append(job.getStatus())
 
-print(prog0, prog1, prog2)
+
+for i, stat in enumerate(status):
+  print(f'status job {i}: {stat}')
+
 print(f"O programa parou na instrucao {instr}.")
 print(f"O valor de m[0] e {mem}")

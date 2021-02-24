@@ -40,9 +40,6 @@ class SystemCall:
 	def write(self, index, job, job_index):
 		job.setPc(job.getPc() + 1)
 		output_address = f'jobs/{job.getName()}/io/{job.getIo()[index].strip()}'
-		print("index: ", index)
-		print("job:", job_index)
-		print("ioCount:", job.getIoCount())
 		count = job.getIoCount()[index]
 		line = str(job.getAcc()) + '\n'
 		if count:

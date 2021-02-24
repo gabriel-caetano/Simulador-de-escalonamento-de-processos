@@ -4,14 +4,14 @@ class Cpu:
 	def __init__(self):
 		self.__pc = 0
 		self.__acc = 0
-		self.__state = "normal"
+		self.__state = "sleep"
 		self.__instructions = {"CARGI": self.__cargi, "CARGM": self.__cargm, "CARGX": self.__cargx , "ARMM": self.__armm, "ARMX": self.__armx, "SOMA": self.__soma, "DESVZ": self.__desvz, "NEG": self.__neg}
 		self.__instruction_memory = []
 		self.__data_memory = []
 
 	def __memoryFail(self):
 		self.__state = "invalid memory"
-		print(f"Memoria invalida durante a execucao {self.getCurrInstruction()} na linha {self.__pc}")
+		print(f"Memoria invalida durante a execucao {self.getInstr()} na linha {self.__pc}")
 
 	def __ilegalInstruction(self):
 		self.__state = "ilegal instruction"
@@ -111,6 +111,8 @@ class Cpu:
 		self.__data_memory = [ 0 for _ in range(mem_size) ]
 
 	def execute(self, instruction):
+		if not instruction:
+			return False
 		params = instruction.split()
 		name = params.pop(0)
 		if self.__state == 'sleep':
@@ -156,7 +158,10 @@ class Cpu:
 		self.__state = "normal"
 		
 	def getInstr(self):
-		return self.__instruction_memory[self.__pc]
+		try:
+			return self.__instruction_memory[self.__pc]
+		except:
+			return None
 
 	def getAcc(self):
 		return self.__acc
