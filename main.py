@@ -14,17 +14,19 @@ so.start()
 instr = so.getInstr()
 mem = so.getMem(0)
 status = []
+
 i = 0
 while True:
   job = so.getScheduler().getJob(i)
-  i += 1
   if not job:
     break
+  print(f'status job {i}: {job.getStatus()}')
+  print(f'job start: {job.getStarttingTime()}')
+  i += 1
+
   status.append(job.getStatus())
 
 
-for i, stat in enumerate(status):
-  print(f'status job {i}: {stat}')
-
+print()
 print(f"O programa parou na instrucao {instr}.")
 print(f"O valor de m[0] e {mem}")

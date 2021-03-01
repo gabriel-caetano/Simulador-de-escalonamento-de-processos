@@ -11,6 +11,7 @@ class OperatingSystem:
 		self.__controller = Controller()
 		self.__timer = Timer()
 		self.__scheduler = Scheduler(jobs)
+		self.__timer.newInterr(1, -2, 1, 5)
 		
 	def getScheduler(self):
 		return self.__scheduler
@@ -36,18 +37,28 @@ class OperatingSystem:
 
 
 	def resolveInterruption(self, code):
-		self.__scheduler.setFree(code)
-		job = self.__scheduler.getJob(code) 
-		pc = job.getPc()
-		instr = job.getProgram()[pc]
-		if instr.split()[0] == 'LE':
-			param = int(instr.split()[1])
-			self.__syscall.read(param, job, code)
-		elif instr.split()[0] == 'GRAVA':
-			param = int(instr.split()[1])
-			self.__syscall.write(param, job, code)
-		if self.__cpu.getState() == 'sleep':
-			(next_job, finished) = self.__scheduler.getNext()
-			if next_job:
-				self.__cpu.setCpuNormal()
-				self.__cpu.loadJob(next_job)
+		if code < -1:
+			index = self.__scheduler.getIndex()
+			if index >= 0:
+				job = self.__scheduler.getJob(index)
+				self.__cpu.saveState(job)
+			(nextJob, finished) = self.__scheduler.getNext()
+			if nextJob != -1:
+				self.__cpu.loadJob(nextJob)
+				nextJob.setStarttingTime(self.__timer.getTime())
+		else:
+			self.__scheduler.setFree(code)
+			job = self.__scheduler.getJob(code) 
+			pc = job.getPc()
+			instr = job.getProgram()[pc]
+			if instr.split()[0] == 'LE':
+				param = int(instr.split()[1])
+				self.__syscall.read(param, job, code)
+			elif instr.split()[0] == 'GRAVA':
+				param = int(instr.split()[1])
+				self.__syscall.write(param, job, code)
+			if self.__cpu.getState() == 'sleep':
+				(next_job, finished) = self.__scheduler.getNext()
+				if next_job != -1:
+					self.__cpu.setCpuNormal()
+					self.__cpu.loadJob(next_job)

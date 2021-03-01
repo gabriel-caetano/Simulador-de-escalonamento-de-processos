@@ -13,10 +13,10 @@ class Timer:
 
 	def newInterr(self, inter_type, code, time, freq = 0):
 		interruption = {
-			"type": inter_type,
+			"type": inter_type, # 0 = aperiodica, 1 = periodica
 			"code": code,
 			"freq": freq,
-			"time": freq + self.__time if freq > 0 else time + self.__time
+			"time": time + self.__time
 		}
 		self.__interruptions.append(interruption)
 		self.__interruptions = sorted(self.__interruptions, key=lambda k: k['time'])

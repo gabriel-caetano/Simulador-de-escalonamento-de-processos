@@ -9,7 +9,7 @@ class Job:
     self.__io_count = []
     self.__startting_time = -1
     self.__priority = 0.5
-    self.__status = 'pending'
+    self.__status = 'normal'
     with open(f'jobs/{name}/{name}.txt', 'r') as new_job:
       line = new_job.readline()
       line = new_job.readline()
@@ -76,3 +76,10 @@ class Job:
 
   def getName(self):
     return self.__name
+
+  def setStarttingTime(self, time):
+    if self.__startting_time == -1:
+      self.__startting_time = time
+
+  def getStarttingTime(self):
+    return self.__startting_time

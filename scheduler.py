@@ -13,7 +13,7 @@ class Scheduler:
     finished = False
     for i, job in enumerate(self.__jobs):
       if job.getPriority() > curr:
-        if job.getStatus() == 'pending':
+        if job.getStatus() == 'normal':
           curr = job.getPriority()
           value = job
           index = i
@@ -36,7 +36,7 @@ class Scheduler:
     return len(self.__jobs)
 
   def setFree(self, index):
-    self.__jobs[index].setStatus('pending')
+    self.__jobs[index].setStatus('normal')
 
   def getJob(self, index):
     try:

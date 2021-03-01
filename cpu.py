@@ -14,7 +14,7 @@ class Cpu:
 		print(f"Memoria invalida durante a execucao {self.getInstr()} na linha {self.__pc}")
 
 	def __ilegalInstruction(self):
-		self.__state = "ilegal instruction"
+		self.__state = "finished"
 
 	def __cargi(self, value):
 		value = int(value[0])
