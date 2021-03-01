@@ -13,18 +13,16 @@ so = OperatingSystem(jobs)
 so.start()
 instr = so.getInstr()
 mem = so.getMem(0)
-status = []
 
 i = 0
-while True:
-  job = so.getScheduler().getJob(i)
+job = so.getScheduler().getJob(i)
+while job:
   if not job:
     break
   print(f'status job {i}: {job.getStatus()}')
   print(f'job start: {job.getStarttingTime()}')
   i += 1
-
-  status.append(job.getStatus())
+  job = so.getScheduler().getJob(i)
 
 
 print()
