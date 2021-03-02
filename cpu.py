@@ -10,11 +10,11 @@ class Cpu:
 		self.__data_memory = []
 
 	def __memoryFail(self):
-		self.__state = "invalid memory"
+		self.__state = "Invalid memory"
 		print(f"Memoria invalida durante a execucao {self.getInstr()} na linha {self.__pc}")
 
 	def __ilegalInstruction(self):
-		self.__state = "finished"
+		self.__state = "Ilegal instruction"
 
 	def __cargi(self, value):
 		value = int(value[0])
@@ -87,7 +87,11 @@ class Cpu:
 		job.setPc(self.__pc)
 		job.setAcc(self.__acc)
 		job.setMem(self.__data_memory)
-		job.setStatus(self.__state)
+		print(self.__state)
+		if self.getInstr() == 'PARA':
+			job.setStatus('finished')
+		else:
+			job.setStatus(self.__state)
 
 	def loadState(self):
 		with open("swap.txt") as swap:

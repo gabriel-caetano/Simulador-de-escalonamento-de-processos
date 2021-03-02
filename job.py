@@ -7,7 +7,10 @@ class Job:
     self.__mem = []
     self.__io = []
     self.__io_count = []
-    self.__startting_time = -1
+    self.__start = -1
+    self.__end = -1
+    self.__partial_start = -1
+    self.__quantum = 0
     self.__priority = 0.5
     self.__status = 'normal'
     with open(f'jobs/{name}/{name}.txt', 'r') as new_job:
@@ -77,9 +80,15 @@ class Job:
   def getName(self):
     return self.__name
 
-  def setStarttingTime(self, time):
-    if self.__startting_time == -1:
-      self.__startting_time = time
+  def setStart(self, time):
+    if self.__start == -1:
+      self.__start = time
 
-  def getStarttingTime(self):
-    return self.__startting_time
+  def getStart(self):
+    return self.__start
+
+  def setEnd(self, time):
+    self.__end = time
+  
+  def getEnd(self):
+    return self.__end

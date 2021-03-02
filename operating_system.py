@@ -28,12 +28,20 @@ class OperatingSystem:
 	def resolveIlegal(self, instruction, cpu):
 		if not instruction:
 			return
-		if instruction.split()[0] == 'LE' or instruction.split()[0] == 'GRAVA':
+		instr = instruction.split()[0]
+		if instr == 'LE' or instr == 'GRAVA':
 			self.__cpu.sleep()
 			self.__cpu.saveState(self.__scheduler.getJob(self.__scheduler.getIndex()))
 			self.__timer.newInterr(0, self.__scheduler.getIndex(), 5)
 		else:
-			self.__scheduler.getJob(self.__scheduler.getIndex()).setStatus('finished')
+			job = self.__scheduler.getJob(self.__scheduler.getIndex())
+			if instr == 'PARA':
+				job.setStatus('finished')
+				job.setEnd(self.__timer.getTime())
+			else:	
+				print(cpu.getState())
+				job.setStatus(cpu.getState())
+				job.setEnd(self.__timer.getTime())
 
 
 	def resolveInterruption(self, code):
@@ -45,7 +53,7 @@ class OperatingSystem:
 			(nextJob, finished) = self.__scheduler.getNext()
 			if nextJob != -1:
 				self.__cpu.loadJob(nextJob)
-				nextJob.setStarttingTime(self.__timer.getTime())
+				nextJob.setStart(self.__timer.getTime())
 		else:
 			self.__scheduler.setFree(code)
 			job = self.__scheduler.getJob(code) 

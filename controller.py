@@ -4,6 +4,10 @@ class Controller:
 		while run:
 			timer.increment()
 			instr = cpu.getInstr()
+			print('------------------------------')
+			print(f'timer: {timer.getTime()}')
+			print(f'job: {so.getScheduler().getIndex()}')
+			print(f'instruction: {instr}')
 			run = cpu.execute(instr)
 			if not run:
 				so.resolveIlegal(instr, cpu)
@@ -17,17 +21,12 @@ class Controller:
 			if interrupted:
 				continue
 			job = so.getScheduler().getJob(so.getScheduler().getIndex())
-			if job.getStatus() == 'finished' or job.getStatus() == 'sleep':
+			status = job.getStatus()
+			if status == 'finished' or status == 'Ilegal instruction' or status == 'Invalid memory' or status == 'sleep':
 				(nextJob, finished) = so.getScheduler().getNext()
-				i = 0
-				while True:
-					job = so.getScheduler().getJob(i)
-					if not job:
-						break
-					i += 1
 				if nextJob != -1:
 					cpu.loadJob(nextJob)
-					nextJob.setStarttingTime(timer.getTime())
+					nextJob.setStart(timer.getTime())
 				elif finished:
 					run = False
 

@@ -20,7 +20,11 @@ while job:
   if not job:
     break
   print(f'status job {i}: {job.getStatus()}')
-  print(f'job start: {job.getStarttingTime()}')
+  start = job.getStart()
+  end = job.getEnd()
+  print(f'job start: {start}')
+  print(f'job end: {end}')
+  print(f'job return time: {end - start}')
   i += 1
   job = so.getScheduler().getJob(i)
 

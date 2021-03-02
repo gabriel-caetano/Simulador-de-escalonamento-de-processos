@@ -23,7 +23,11 @@ class Scheduler:
     else:
       finished = True
       for job in self.__jobs:
-        if job.getStatus() != 'finished':
+        status = job.getStatus()
+        notFinished = status != 'finished'
+        notIlegal = status != 'Ilegal instruction'
+        notMemory = status != 'Invalid memory'
+        if notFinished and notIlegal and notMemory:
           finished = False
           break
     
