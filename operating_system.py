@@ -31,11 +31,13 @@ class OperatingSystem:
 		instr = instruction.split()[0]
 		if instr == 'LE' or instr == 'GRAVA':
 			self.__cpu.sleep()
-			self.__cpu.saveState(self.__scheduler.getJob(self.__scheduler.getIndex()))
+			self.__cpu.saveState(self.__scheduler.getJob(self.__scheduler.getIndex()), self.__timer)
 			self.__timer.newInterr(0, self.__scheduler.getIndex(), 5)
 		else:
 			job = self.__scheduler.getJob(self.__scheduler.getIndex())
 			if instr == 'PARA':
+				print(f'status: {job.getStatus()}')
+				print(f'time: {self.__timer.getTime()}')
 				job.setStatus('finished')
 				job.setEnd(self.__timer.getTime())
 			else:	
@@ -49,7 +51,7 @@ class OperatingSystem:
 			index = self.__scheduler.getIndex()
 			if index >= 0:
 				job = self.__scheduler.getJob(index)
-				self.__cpu.saveState(job)
+				self.__cpu.saveState(job, self.__timer)
 			(nextJob, finished) = self.__scheduler.getNext()
 			if nextJob != -1:
 				self.__cpu.loadJob(nextJob)

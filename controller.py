@@ -4,10 +4,13 @@ class Controller:
 		while run:
 			timer.increment()
 			instr = cpu.getInstr()
+			index = so.getScheduler().getIndex()
 			print('------------------------------')
 			print(f'timer: {timer.getTime()}')
 			print(f'job: {so.getScheduler().getIndex()}')
 			print(f'instruction: {instr}')
+			if index == 0 and instr == 'PARA':
+				print('AAAAAAAAAAAAAAAAAAAAAAAAAA O QUE HOUVE?')
 			run = cpu.execute(instr)
 			if not run:
 				so.resolveIlegal(instr, cpu)

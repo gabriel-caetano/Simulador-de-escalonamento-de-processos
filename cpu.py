@@ -83,13 +83,14 @@ class Cpu:
 		self.__instruction_memory = [ x for x in job.getProgram() ]
 		self.__state = 'normal'
 		
-	def saveState(self, job):
+	def saveState(self, job, timer):
 		job.setPc(self.__pc)
 		job.setAcc(self.__acc)
 		job.setMem(self.__data_memory)
-		print(self.__state)
 		if self.getInstr() == 'PARA':
 			job.setStatus('finished')
+			job.setEnd(timer.getTime())
+
 		else:
 			job.setStatus(self.__state)
 
